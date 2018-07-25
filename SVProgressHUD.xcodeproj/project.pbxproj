@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1CB9428921082F010065934C /* Gear.h in Headers */ = {isa = PBXBuildFile; fileRef = 1CB9428721082F010065934C /* Gear.h */; };
+		1CB9428A21082F010065934C /* Gear.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB9428821082F010065934C /* Gear.m */; };
+		1CB9428B21082F010065934C /* Gear.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CB9428821082F010065934C /* Gear.m */; };
 		3CB14F9C1AFBCB57003C2641 /* SVRadialGradientLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CB14F9A1AFBCB57003C2641 /* SVRadialGradientLayer.h */; };
 		3CB14F9D1AFBCB57003C2641 /* SVRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB14F9B1AFBCB57003C2641 /* SVRadialGradientLayer.m */; };
 		3CB14F9E1AFBCB57003C2641 /* SVRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CB14F9B1AFBCB57003C2641 /* SVRadialGradientLayer.m */; };
@@ -38,6 +41,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1CB9428721082F010065934C /* Gear.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gear.h; sourceTree = "<group>"; };
+		1CB9428821082F010065934C /* Gear.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gear.m; sourceTree = "<group>"; };
 		3CB14F9A1AFBCB57003C2641 /* SVRadialGradientLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRadialGradientLayer.h; sourceTree = "<group>"; };
 		3CB14F9B1AFBCB57003C2641 /* SVRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVRadialGradientLayer.m; sourceTree = "<group>"; };
 		4A9D7DCE1AB345540039B273 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
@@ -119,6 +124,8 @@
 		65F0220115C857EF0030BBEF /* SVProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
+				1CB9428721082F010065934C /* Gear.h */,
+				1CB9428821082F010065934C /* Gear.m */,
 				3CB14F9A1AFBCB57003C2641 /* SVRadialGradientLayer.h */,
 				3CB14F9B1AFBCB57003C2641 /* SVRadialGradientLayer.m */,
 				65F0220415C857EF0030BBEF /* SVProgressHUD.h */,
@@ -148,6 +155,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CB9428921082F010065934C /* Gear.h in Headers */,
 				4A9D7DF31AB345E10039B273 /* SVProgressHUD.h in Headers */,
 				4A9D7DF41AB345E80039B273 /* SVIndefiniteAnimatedView.h in Headers */,
 				6A58C8EC1CAE62F400BF604D /* SVProgressAnimatedView.h in Headers */,
@@ -241,6 +249,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CB9428A21082F010065934C /* Gear.m in Sources */,
 				4A9D7DF11AB345DD0039B273 /* SVProgressHUD.m in Sources */,
 				3CB14F9E1AFBCB57003C2641 /* SVRadialGradientLayer.m in Sources */,
 				4A9D7DF21AB345DD0039B273 /* SVIndefiniteAnimatedView.m in Sources */,
@@ -252,6 +261,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CB9428B21082F010065934C /* Gear.m in Sources */,
 				65F0220715C857EF0030BBEF /* SVProgressHUD.m in Sources */,
 				3CB14F9D1AFBCB57003C2641 /* SVRadialGradientLayer.m in Sources */,
 				4A9D7DD11AB345540039B273 /* SVIndefiniteAnimatedView.m in Sources */,

@@ -1165,7 +1165,11 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 
 - (UIColor*)foregroundColorForStyle {
     if(self.defaultStyle == SVProgressHUDStyleLight) {
+#if USE_GEAR
+        return [UIColor darkGrayColor];
+#else
         return [UIColor blackColor];
+#endif
     } else if(self.defaultStyle == SVProgressHUDStyleDark) {
         return [UIColor whiteColor];
     } else {

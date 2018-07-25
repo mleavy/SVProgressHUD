@@ -8,6 +8,10 @@
 #import "SVIndefiniteAnimatedView.h"
 #import "SVProgressHUD.h"
 
+#if USE_GEAR
+#import "Gear.h"
+#endif
+
 @interface SVIndefiniteAnimatedView ()
 
 @property (nonatomic, strong) CAShapeLayer *indefiniteAnimatedLayer;
@@ -39,6 +43,10 @@
         CGPoint arcCenter = CGPointMake(self.radius+self.strokeThickness/2+5, self.radius+self.strokeThickness/2+5);
         UIBezierPath* smoothedPath = [UIBezierPath bezierPathWithArcCenter:arcCenter radius:self.radius startAngle:(CGFloat) (M_PI*3/2) endAngle:(CGFloat) (M_PI/2+M_PI*5) clockwise:YES];
         
+#if USE_GEAR
+        smoothedPath = [Gear gear:self.bounds];
+#endif
+        
         _indefiniteAnimatedLayer = [CAShapeLayer layer];
         _indefiniteAnimatedLayer.contentsScale = [[UIScreen mainScreen] scale];
         _indefiniteAnimatedLayer.frame = CGRectMake(0.0f, 0.0f, arcCenter.x*2, arcCenter.y*2);
@@ -61,7 +69,7 @@
         maskLayer.frame = _indefiniteAnimatedLayer.bounds;
         _indefiniteAnimatedLayer.mask = maskLayer;
         
-        NSTimeInterval animationDuration = 1;
+        NSTimeInterval animationDuration = USE_GEAR ? 2 : 1;
         CAMediaTimingFunction *linearCurve = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
         
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
@@ -74,6 +82,9 @@
         animation.fillMode = kCAFillModeForwards;
         animation.autoreverses = NO;
         [_indefiniteAnimatedLayer.mask addAnimation:animation forKey:@"rotate"];
+#if USE_GEAR
+        [_indefiniteAnimatedLayer addAnimation:animation forKey:@"rotate"];
+#endif
         
         CAAnimationGroup *animationGroup = [CAAnimationGroup animation];
         animationGroup.duration = animationDuration;
@@ -81,6 +92,7 @@
         animationGroup.removedOnCompletion = NO;
         animationGroup.timingFunction = linearCurve;
         
+#if !USE_GEAR
         CABasicAnimation *strokeStartAnimation = [CABasicAnimation animationWithKeyPath:@"strokeStart"];
         strokeStartAnimation.fromValue = @0.015;
         strokeStartAnimation.toValue = @0.515;
@@ -90,6 +102,7 @@
         strokeEndAnimation.toValue = @0.985;
         
         animationGroup.animations = @[strokeStartAnimation, strokeEndAnimation];
+#endif
         [_indefiniteAnimatedLayer addAnimation:animationGroup forKey:@"progress"];
         
     }

@@ -456,7 +456,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     CGRect subtitleLabelRect = CGRectZero;
     CGFloat subtitleLabelHeight = 0.0f;
     CGFloat subtitleLabelWidth = 0.0f;
-    CGFloat subtitleOffsetY = 10.0f;
+    CGFloat subtitleOffsetY = 0.0f;
     
     if(self.statusLabel.text) {
         CGSize constraintSize = CGSizeMake(200.0f, 300.0f);
@@ -469,6 +469,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     }
     
     if(self.subtitleLabel.text) {
+        subtitleOffsetY = 20.0f;
         CGSize constraintSize = CGSizeMake(200.0f, 300.0f);
         subtitleLabelRect = [self.subtitleLabel.text boundingRectWithSize:constraintSize
                                                         options:(NSStringDrawingOptions)(NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin)

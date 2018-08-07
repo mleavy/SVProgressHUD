@@ -41,6 +41,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 @property (nonatomic, strong) SVRadialGradientLayer *backgroundRadialGradientLayer;
 @property (nonatomic, strong) UIVisualEffectView *hudView;
 @property (nonatomic, strong) UILabel *statusLabel;
+@property (nonatomic, strong) UILabel *subtitleLabel;
 @property (nonatomic, strong) UIImageView *imageView;
 
 @property (nonatomic, strong) UIView *indefiniteAnimatedView;
@@ -265,8 +266,12 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 }
 
 + (void)showSuccessWithStatus:(NSString*)status {
-    [self showImage:[self sharedView].successImage status:status];
-
+    [self showSuccessWithStatus:status subtitle:nil];
+}
+    
++ (void)showSuccessWithStatus:(NSString*)status subtitle:(NSString*)subtitle {
+    [self showImage:[self sharedView].successImage status:status subtitle:subtitle];
+    
 #if TARGET_OS_IOS && __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
     if (@available(iOS 10, *)) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -319,8 +324,12 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 }
 
 + (void)showImage:(UIImage*)image status:(NSString*)status {
+    [self showImage:image status:status subtitle:nil];
+}
+    
++ (void)showImage:(UIImage*)image status:(NSString*)status subtitle:(NSString*)subtitle {
     NSTimeInterval displayInterval = [self displayDurationForString:status];
-    [[self sharedView] showImage:image status:status duration:displayInterval];
+    [[self sharedView] showImage:image status:status subtitle:subtitle duration:displayInterval];
 }
 
 + (void)showImage:(UIImage*)image status:(NSString*)status maskType:(SVProgressHUDMaskType)maskType {
@@ -444,6 +453,11 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     CGFloat labelHeight = 0.0f;
     CGFloat labelWidth = 0.0f;
     
+    CGRect subtitleLabelRect = CGRectZero;
+    CGFloat subtitleLabelHeight = 0.0f;
+    CGFloat subtitleLabelWidth = 0.0f;
+    CGFloat subtitleOffsetY = 10.0f;
+    
     if(self.statusLabel.text) {
         CGSize constraintSize = CGSizeMake(200.0f, 300.0f);
         labelRect = [self.statusLabel.text boundingRectWithSize:constraintSize
@@ -452,6 +466,16 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
                                                         context:NULL];
         labelHeight = ceilf(CGRectGetHeight(labelRect));
         labelWidth = ceilf(CGRectGetWidth(labelRect));
+    }
+    
+    if(self.subtitleLabel.text) {
+        CGSize constraintSize = CGSizeMake(200.0f, 300.0f);
+        subtitleLabelRect = [self.subtitleLabel.text boundingRectWithSize:constraintSize
+                                                        options:(NSStringDrawingOptions)(NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin)
+                                                     attributes:@{NSFontAttributeName: self.statusLabel.font}
+                                                        context:NULL];
+        subtitleLabelHeight = ceilf(CGRectGetHeight(subtitleLabelRect));
+        subtitleLabelWidth = ceilf(CGRectGetWidth(subtitleLabelRect));
     }
     
     // Calculate hud size based on content
@@ -469,13 +493,17 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     }
     
     // |-spacing-content-spacing-|
-    hudWidth = SVProgressHUDHorizontalSpacing + MAX(labelWidth, contentWidth) + SVProgressHUDHorizontalSpacing;
+    hudWidth = SVProgressHUDHorizontalSpacing + MAX(MAX(labelWidth, subtitleLabelWidth), contentWidth) + SVProgressHUDHorizontalSpacing;
     
     // |-spacing-content-(labelSpacing-label-)spacing-|
-    hudHeight = SVProgressHUDVerticalSpacing + labelHeight + contentHeight + SVProgressHUDVerticalSpacing;
+    hudHeight = SVProgressHUDVerticalSpacing + MAX(labelHeight, subtitleLabelHeight) + contentHeight + SVProgressHUDVerticalSpacing;
     if(self.statusLabel.text && (imageUsed || progressUsed)){
         // Add spacing if both content and label are used
         hudHeight += SVProgressHUDLabelSpacing;
+    }
+    if(self.subtitleLabel.text && (imageUsed || progressUsed)){
+        // Add spacing if both content and label are used
+        hudHeight += subtitleOffsetY + (SVProgressHUDLabelSpacing * 2);
     }
     
     // Update values on subviews
@@ -507,6 +535,23 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     }
     self.statusLabel.frame = labelRect;
     self.statusLabel.center = CGPointMake(CGRectGetMidX(self.hudView.bounds), centerY);
+    
+    // Subtitle Label
+    if(imageUsed || progressUsed) {
+        centerY = CGRectGetMaxY(imageUsed ? self.imageView.frame : self.indefiniteAnimatedView.frame) + SVProgressHUDLabelSpacing + labelHeight + subtitleOffsetY + subtitleLabelHeight / 2.0f;
+    } else {
+        centerY = CGRectGetMidY(self.hudView.bounds);
+    }
+    self.subtitleLabel.frame = subtitleLabelRect;
+    self.subtitleLabel.center = CGPointMake(CGRectGetMidX(self.hudView.bounds), centerY);
+    
+    if(self.subtitleLabel.text) {
+        CGRect hairlineFrame = CGRectMake(0, self.subtitleLabel.frame.origin.y - (subtitleOffsetY/2), hudWidth, 0.5);
+        UIView *hairline = [[UIView alloc] initWithFrame:hairlineFrame];
+        hairline.backgroundColor = self.lightForegroundColorForStyle;
+        hairline.alpha = 0.55f;
+        [self.hudView.contentView addSubview:hairline];
+    }
     
     [CATransaction commit];
 }
@@ -823,6 +868,10 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
 }
 
 - (void)showImage:(UIImage*)image status:(NSString*)status duration:(NSTimeInterval)duration {
+    [self showImage:image status:status subtitle:nil duration:duration];
+}
+    
+- (void)showImage:(UIImage*)image status:(NSString*)status subtitle:(NSString*)subtitle duration:(NSTimeInterval)duration {
     __weak SVProgressHUD *weakSelf = self;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         __strong SVProgressHUD *strongSelf = weakSelf;
@@ -853,6 +902,9 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
             // Update text
             strongSelf.statusLabel.hidden = status.length == 0;
             strongSelf.statusLabel.text = status;
+            
+            strongSelf.subtitleLabel.hidden = subtitle.length == 0;
+            strongSelf.subtitleLabel.text = subtitle;
             
             // Fade in delayed if a grace time is set
             // An image will be dismissed automatically. Thus pass the duration as userInfo.
@@ -1176,6 +1228,16 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
         return self.foregroundColor;
     }
 }
+    
+- (UIColor*)lightForegroundColorForStyle {
+    if(self.defaultStyle == SVProgressHUDStyleLight) {
+        return [UIColor lightGrayColor];
+    } else if(self.defaultStyle == SVProgressHUDStyleDark) {
+        return [UIColor whiteColor];
+    } else {
+        return self.foregroundColor;
+    }
+}
 
 - (UIColor*)backgroundColorForStyle {
     if(self.defaultStyle == SVProgressHUDStyleLight) {
@@ -1288,6 +1350,26 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     _statusLabel.font = self.font;
 
     return _statusLabel;
+}
+    
+- (UILabel*)subtitleLabel {
+    if(!_subtitleLabel) {
+        _subtitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _subtitleLabel.backgroundColor = [UIColor clearColor];
+        _subtitleLabel.adjustsFontSizeToFitWidth = YES;
+        _subtitleLabel.textAlignment = NSTextAlignmentCenter;
+        _subtitleLabel.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
+        _subtitleLabel.numberOfLines = 0;
+    }
+    if(!_subtitleLabel.superview) {
+        [self.hudView.contentView addSubview:_subtitleLabel];
+    }
+    
+    // Update styling
+    _subtitleLabel.textColor = self.foregroundColorForStyle;
+    _subtitleLabel.font = self.font;
+    
+    return _subtitleLabel;
 }
 
 - (UIImageView*)imageView {

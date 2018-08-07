@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C1431AB211A11390045B392 /* Gear.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C1431AA211A11390045B392 /* Gear.m */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -35,6 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C1431A9211A11390045B392 /* Gear.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gear.h; sourceTree = "<group>"; };
+		1C1431AA211A11390045B392 /* Gear.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gear.m; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -153,6 +156,8 @@
 		63ADC4B81364C1360060E45B /* SVProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
+				1C1431A9211A11390045B392 /* Gear.h */,
+				1C1431AA211A11390045B392 /* Gear.m */,
 				B07118271A3264C900C8A614 /* SVIndefiniteAnimatedView.h */,
 				B07118281A3264C900C8A614 /* SVIndefiniteAnimatedView.m */,
 				3C32D91F1CAC66CA009CDAB0 /* SVProgressAnimatedView.h */,
@@ -287,6 +292,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C1431AB211A11390045B392 /* Gear.m in Sources */,
 				B07118291A3264C900C8A614 /* SVIndefiniteAnimatedView.m in Sources */,
 				3CD078EA1A3B809500290D80 /* SVRadialGradientLayer.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,

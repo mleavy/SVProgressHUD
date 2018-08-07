@@ -124,6 +124,7 @@ typedef void (^SVProgressHUDDismissCompletion)(void);
 + (void)showInfoWithStatus:(nullable NSString*)status;
 + (void)showInfoWithStatus:(nullable NSString*)status maskType:(SVProgressHUDMaskType)maskType __attribute__((deprecated("Use showInfoWithStatus: and setDefaultMaskType: instead.")));
 + (void)showSuccessWithStatus:(nullable NSString*)status;
++ (void)showSuccessWithStatus:(nullable NSString*)status subtitle:(nullable NSString*)subtitle;
 + (void)showSuccessWithStatus:(nullable NSString*)status maskType:(SVProgressHUDMaskType)maskType __attribute__((deprecated("Use showSuccessWithStatus: and setDefaultMaskType: instead.")));
 + (void)showErrorWithStatus:(nullable NSString*)status;
 + (void)showErrorWithStatus:(nullable NSString*)status maskType:(SVProgressHUDMaskType)maskType __attribute__((deprecated("Use showErrorWithStatus: and setDefaultMaskType: instead.")));

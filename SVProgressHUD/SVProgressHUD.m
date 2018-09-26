@@ -546,9 +546,18 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     self.subtitleLabel.frame = subtitleLabelRect;
     self.subtitleLabel.center = CGPointMake(CGRectGetMidX(self.hudView.bounds), centerY);
     
+    NSInteger hairlineViewTag = 8998;
+    
+    // remove hairline view
+    UIView *existingHairline = [self.hudView.contentView viewWithTag:hairlineViewTag];
+    if(existingHairline != nil) {
+        [existingHairline removeFromSuperview];
+    }
+    
     if(self.subtitleLabel.text) {
         CGRect hairlineFrame = CGRectMake(0, self.subtitleLabel.frame.origin.y - (subtitleOffsetY/2), hudWidth, 0.5);
         UIView *hairline = [[UIView alloc] initWithFrame:hairlineFrame];
+        hairline.tag = hairlineViewTag;
         hairline.backgroundColor = self.lightForegroundColorForStyle;
         hairline.alpha = 0.55f;
         [self.hudView.contentView addSubview:hairline];

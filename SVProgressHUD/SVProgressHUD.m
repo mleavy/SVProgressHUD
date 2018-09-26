@@ -473,7 +473,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
         CGSize constraintSize = CGSizeMake(200.0f, 300.0f);
         subtitleLabelRect = [self.subtitleLabel.text boundingRectWithSize:constraintSize
                                                         options:(NSStringDrawingOptions)(NSStringDrawingUsesFontLeading | NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin)
-                                                     attributes:@{NSFontAttributeName: self.statusLabel.font}
+                                                     attributes:@{NSFontAttributeName: self.subtitleLabel.font}
                                                         context:NULL];
         subtitleLabelHeight = ceilf(CGRectGetHeight(subtitleLabelRect));
         subtitleLabelWidth = ceilf(CGRectGetWidth(subtitleLabelRect));
@@ -811,6 +811,8 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
             // Update text and set progress to the given value
             strongSelf.statusLabel.hidden = status.length == 0;
             strongSelf.statusLabel.text = status;
+            strongSelf.subtitleLabel.hidden = YES;
+            strongSelf.subtitleLabel.text = nil;
             strongSelf.progress = progress;
             
             // Choose the "right" indicator depending on the progress

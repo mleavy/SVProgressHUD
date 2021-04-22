@@ -521,7 +521,7 @@ return [NSBundle bundleWithURL:url];
     hudWidth = SVProgressHUDHorizontalSpacing + MAX(MAX(labelWidth, subtitleLabelWidth), contentWidth) + SVProgressHUDHorizontalSpacing;
     
     // |-spacing-content-(labelSpacing-label-)spacing-|
-    hudHeight = SVProgressHUDVerticalSpacing + MAX(labelHeight, subtitleLabelHeight) + contentHeight + SVProgressHUDVerticalSpacing;
+    hudHeight = SVProgressHUDVerticalSpacing + (labelHeight + subtitleLabelHeight) + contentHeight + SVProgressHUDVerticalSpacing;
     if(self.statusLabel.text && (imageUsed || progressUsed)){
         // Add spacing if both content and label are used
         hudHeight += SVProgressHUDLabelSpacing;
